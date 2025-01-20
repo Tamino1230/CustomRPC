@@ -24,8 +24,6 @@ config_file = c.config_file
 rpc = None
 first_time = True
 
-atexit.register(lambda: rpc.close() if rpc and rpc_enabled else None)
-
 #- Loads the configuration
 def load_config():
     global client_id, details, state, party_size, party_enabled, rpc_enabled
@@ -249,9 +247,13 @@ def value_use():
 #- User to Start the Program
 if __name__ == "__main__":
     load_config()
-    rpc = Presence(client_id)
-    rpc.connect()
-    set_rpc()
+    try:
+        rpc = Presence(client_id)
+        rpc.connect()
+        set_rpc()
+    except Exception as e:
+        print(f"Error 402: \"{e}\"")
+        exit()
     if sdaafasfasfgg != "github.com/Tamino1230":
         print("Wrong owner in file!") #- Yes i know you can just delete that
         exit()
