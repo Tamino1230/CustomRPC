@@ -179,49 +179,81 @@ def value_use():
                     rpc = Presence(new_client_id)
                     clear_console()
                     print("Connecting new..")
-                    rpc.connect()
-                    set_rpc()
+                    try:
+                        rpc.connect()
+                        set_rpc()
+                    except Exception as e:
+                        print(f"\"{e}\"")
+                        exit()
                     print("Successfully connected..\n")
                 else:
                     clear_console()
                     print("Invalid Client ID")
                     print("Reconnection old Client ID..")
                     rpc = Presence(client_id)
-                    rpc.connect()
-                    set_rpc()
+                    try:
+                        rpc.connect()
+                        set_rpc()
+                    except Exception as e:
+                        print(f"\"{e}\"")
+                        exit()
                     print("Reconnected to old..\n")
             case 2:
                 clear_console()
-                details = get_details()
-                set_rpc()
+                try:
+                    details = get_details()
+                    set_rpc()
+                except Exception as e:
+                    print(f"\"{e}\"")
+                    exit()
                 print("Changed details successfully..\n")
 
             case 3:
                 clear_console()
-                state = get_state()
-                set_rpc()
+                try:
+                    state = get_state()
+                    set_rpc()
+                except Exception as e:
+                    print(f"\"{e}\"")
+                    exit()
                 print("Changed state successfully..\n")
             case 4:
                 clear_console()
-                party_size = get_party_size()
-                set_rpc()
+                try:
+                    party_size = get_party_size()
+                    set_rpc()
+                except Exception as e:
+                    print(f"\"{e}\"")
+                    exit()
                 print("Changed party size successfully..\n")
             case 5:
                 party_enabled = not party_enabled
-                set_rpc()
+                try:
+                    set_rpc()
+                except Exception as e:
+                    print(f"\"{e}\"")
+                    exit()
                 clear_console()
                 print(f"Party visibility {'enabled' if party_enabled else 'disabled'}.")
                 time.sleep(1.5)
             case 6:
                 clear_console()
                 if rpc:
-                    rpc.close()
+                    try:
+                        rpc.close()
+                    except Exception as e:
+                        print(f"\"{e}\"")
+                        exit()
                     print("Restarting..")
                 time.sleep(1)
                 rpc = Presence(client_id)
                 print("Reconnecting..")
-                rpc.connect()
-                set_rpc()
+                try:
+                    rpc.connect()
+                    set_rpc()
+                except Exception as e:
+                    print(f"\"{e}\"")
+                    exit()
                 time.sleep(1.5)
             case 7:
                 clear_console()
@@ -231,15 +263,23 @@ def value_use():
             case 8:
                 rpc_enabled = not rpc_enabled
                 if rpc_enabled:
-                    clear_console()
-                    rpc.connect()
-                    set_rpc()
+                    try:
+                        clear_console()
+                        rpc.connect()
+                        set_rpc()
+                    except Exception as e:
+                        print(f"\"{e}\"")
+                        exit()
                     print("RPC enabled.")
                     time.sleep(1.5)
                 else:
-                    clear_console()
-                    rpc.close()
-                    print("RPC disabled.")
+                    try:
+                        clear_console()
+                        rpc.close()
+                        print("RPC disabled.")
+                    except Exception as e:
+                        print(f"\"{e}\"")
+                        exit()
                     time.sleep(1.5)
             case 9:
                 return
@@ -252,7 +292,7 @@ if __name__ == "__main__":
         rpc.connect()
         set_rpc()
     except Exception as e:
-        print(f"Error 402: \"{e}\"")
+        print(f"\"{e}\"")
         exit()
     if sdaafasfasfgg != "github.com/Tamino1230":
         print("Wrong owner in file!") #- Yes i know you can just delete that
