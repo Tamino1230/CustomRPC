@@ -58,6 +58,8 @@ exit /b 1
 :found
 echo Der Python-Pfad ist: %pythonPath%
 
+pip install -r requirements.txt
+
 cd /d "%~dp0"
 :: Datei mit Python öffnen
 set "fileToOpen=main.py"
