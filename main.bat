@@ -4,7 +4,7 @@
 set "currentDir=%~dp0"
 set "desktopPath=%USERPROFILE%\Desktop"
 set "shortcutName=CustomRPC(cmd) - @tamino1230.lnk"
-set "targetFile=main_without_ui.bat"
+set "targetFile=main.bat"
 set "iconPath=%currentDir%icon\babToma.ico"
 
 :: Prüfen, ob die Zieldatei existiert
