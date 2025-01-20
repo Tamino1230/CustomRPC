@@ -60,7 +60,7 @@ echo Der Python-Pfad ist: %pythonPath%
 
 cd /d "%~dp0"
 :: Datei mit Python öffnen
-set "fileToOpen=main.py"
+set "fileToOpen=main_with_ui.py"
 if not exist "%fileToOpen%" (
     echo Die Datei "%fileToOpen%" wurde nicht gefunden.
     pause
