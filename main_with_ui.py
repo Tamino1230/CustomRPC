@@ -1,3 +1,5 @@
+
+# import online
 import time
 from pypresence import Presence, InvalidID
 import os
@@ -5,6 +7,9 @@ import json
 import atexit
 import tkinter as tk
 from tkinter import messagebox, simpledialog
+
+# import files
+import config as c
 
 # var Default Settings
 client_id = '1330216270477525053'
@@ -17,7 +22,7 @@ rpc_enabled = True
 by = "github.com/Tamino1230"
 
 # var Other Settings
-config_file = 'rpc_config.json'
+config_file = c.config_file
 rpc = None
 first_time = True
 
