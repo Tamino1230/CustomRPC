@@ -118,7 +118,13 @@ def get_party_size():
 
 #- Draws the Menu and lets the User pick an option
 def draw_menu():
+    global first_time
     av = [1, 2, 3, 4, 5, 6, 7, 8]
+    if first_time != False:
+        print("\nCustom Discord RPC is running! 🎉\nJoin my Discord Server! Also if you got any problems:\nhttps://discord.gg/vpApZSjh3H\n")
+        first_time = False
+    else:
+        print("Custom Discord RPC is running updated! 🎉\n")
     print("Menu:\n"
           "   1) Change Client ID (when doing that all your settings will reset to the last saved)\n"
           "   2) Change Details\n"
@@ -170,47 +176,70 @@ def value_use():
                 new_client_id = get_client_id()
                 if check_client_id(new_client_id):
                     rpc = Presence(new_client_id)
+                    clear_console()
+                    print("Connecting new..")
                     rpc.connect()
                     set_rpc()
+                    print("Successfully connected..\n")
                 else:
+                    clear_console()
                     print("Invalid Client ID")
                     print("Reconnection old Client ID..")
                     rpc = Presence(client_id)
                     rpc.connect()
                     set_rpc()
-                    print("Reconnected to old..")
+                    print("Reconnected to old..\n")
             case 2:
+                clear_console()
                 details = get_details()
                 set_rpc()
+                print("Changed details successfully..\n")
+
             case 3:
+                clear_console()
                 state = get_state()
                 set_rpc()
+                print("Changed state successfully..\n")
             case 4:
+                clear_console()
                 party_size = get_party_size()
                 set_rpc()
+                print("Changed party size successfully..\n")
             case 5:
                 party_enabled = not party_enabled
                 set_rpc()
+                clear_console()
                 print(f"Party visibility {'enabled' if party_enabled else 'disabled'}.")
+                time.sleep(1.5)
             case 6:
+                clear_console()
                 if rpc:
                     rpc.close()
+                    print("Restarting..")
                 time.sleep(1)
                 rpc = Presence(client_id)
+                print("Reconnecting..")
                 rpc.connect()
                 set_rpc()
+                time.sleep(1.5)
             case 7:
+                clear_console()
                 save_config()
                 print("Settings saved.")
+                time.sleep(1.5)
             case 8:
                 rpc_enabled = not rpc_enabled
                 if rpc_enabled:
+                    clear_console()
                     rpc.connect()
                     set_rpc()
                     print("RPC enabled.")
+                    time.sleep(1.5)
                 else:
+                    clear_console()
                     rpc.close()
                     print("RPC disabled.")
+                    time.sleep(1.5)
             case 9:
                 return
 
@@ -226,11 +255,5 @@ if __name__ == "__main__":
     clear_console()
     
     while True:
-        if first_time != False:
-            print("\nCustom Discord RPC is running! 🎉\nJoin my Discord Server! Also if you got any problems:\nhttps://discord.gg/vpApZSjh3H\n")
-            first_time = False
-        else:
-            print("Custom Discord RPC is running updated! 🎉\n")
         value_use()
-        clear_console()
         time.sleep(1)
