@@ -39,6 +39,54 @@ def load_config():
     except FileNotFoundError:
         pass
 
+
+def print_files(filetype=".json", verzeichnis=os.getcwd()):
+    #- finds all files in folder
+    print("\nYour saves:")
+    count = 0
+    for datei in os.listdir(verzeichnis):
+        if datei.endswith(filetype):
+            count += 1
+            print(f"Save {count}: {datei}")
+    print("")
+
+
+
+#- changes the config file while beeing in the program
+def change_config():
+    clear_console()
+    print_files()
+    global config_file
+    old_config = config_file
+    while True:
+        new_conf = safe_input(str, "Which File do you want to load? (xxx.json): ", "Useless Errormessage")
+        if new_conf == "main.py" or new_conf == "main.bat" or new_conf == "README.md" or new_conf == "LICENSE":
+            print("You cant load a main File! only \".json\"!")
+            continue
+        elif not ".json" in new_conf:
+            print("You can only load \".json\" files!")
+            continue
+        if os.path.exists(new_conf):
+            print(f"Load File \"{new_conf}\" exist!")
+            break
+        else:
+            print(f"File \"{new_conf}\" doesnt exist!")
+            continue
+    try:
+        config_file = new_conf
+        print("Trying to connect to new..")
+        rpc.close()
+        load_config()
+        print("Sucessfully connected to new!")
+    except Exception as e:
+        print("Error accured", e)
+        config_file = old_config
+        try:
+            print("Reconnecting old..")
+            load_config()
+        except Exception as e:
+            print("An error Accured", e)
+
 #- Saves the configuration
 def save_config():
     config = {
@@ -120,7 +168,7 @@ def get_party_size():
 #- Draws the Menu and lets the User pick an option
 def draw_menu():
     global first_time
-    av = [1, 2, 3, 4, 5, 6, 7, 8]
+    av = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
     if first_time != False:
         print("\nCustom Discord RPC is running! 🎉\nJoin my Discord Server! Also if you got any problems:\nhttps://discord.gg/vpApZSjh3H\n")
         first_time = False
@@ -135,6 +183,9 @@ def draw_menu():
           "   6) Restart\n"
           "   7) Save Settings\n"
           "   8) Toggle RPC\n"
+          "   9) Change current Save File\n"
+          "  10) New Save File\n"
+          "  11) Change Start-Up File (File which automaticly opens)\n"
           "You can Ignore Errors in the console if it didnt work change the Settings again.\nThe Program is rather slow.\n"
           f"by {sdaafasfasfgg}\n")
     while True:
@@ -164,6 +215,59 @@ def set_rpc():
     if party_enabled:
         rpc_args.update({"party_id": "1234", "party_size": party_size})
     rpc.update(**rpc_args)
+
+def create_file(filename):
+    with open(filename, 'w', encoding='utf-8') as file:
+        file.write('{"client_id": "1330216270477525053", "details": "In a conversation with someone", "state": "Working on something cool!", "party_size": [1, 4], "party_enabled": false, "rpc_enabled": true}')
+
+    print(f"Savefile: \"{filename}\" was created with default settings!")
+
+def newSave():
+    clear_console()
+    while True:
+        file_name = safe_input(str, "What do you want to name the new safe file? (xxx.json) (write cancel to cancel): ", "useless error")
+        if " " in file_name:
+            print("Spaces are getting deleted to avoid Errors!")
+        file_name = file_name.replace(" ", "")
+        if file_name == "cancel":
+            break
+        else:
+            if ".json" not in file_name:
+                print(f"You can only save in \".json\" Files and not \"{file_name}\"!")
+                continue
+            elif os.path.exists(file_name):
+                print(f"You cant create two saves with the same name! \"{file_name}\"")
+                continue
+            else:
+                create_file(file_name)
+                break
+
+def change_startup():
+    clear_console()
+    print_files(".json")
+    while True:
+        value = safe_input(str, "Choose the file you want to put as Start-up: (cancel to cancel): ", "useless :3 (jamie is a femboy!)")
+        if value == "cancel":
+            break
+        elif not ".json" in value:
+            print("You can only put \".json\" files!")
+            continue
+        elif os.path.exists(value):
+            with open('config.py', 'w') as file:
+                file.write(f"config_file = '{value}'\n")
+                file.write("#- file where the settings will be saved / which saved config")
+            print(f"Successfully set \"{value}\" as the Startup file!")
+            break
+        elif not os.path.exists(value):
+            print(f"File \"{value}\" doesnt exist!")
+        else:
+            print("An error accured!")
+            continue
+            
+
+
+
+            
 
 #- Uses the data from the Menu
 def value_use():
@@ -282,7 +386,21 @@ def value_use():
                         exit()
                     time.sleep(1.5)
             case 9:
-                return
+                change_config()
+                try:
+                    rpc = Presence(client_id)
+                    rpc.connect()
+                    set_rpc()
+                except Exception as e:
+                    print(f"\"{e}\"")
+                time.sleep(1.5)
+            case 10:
+                newSave()
+                time.sleep(1.5)
+            case 11:
+                change_startup()
+                
+
 
 #- User to Start the Program
 if __name__ == "__main__":
