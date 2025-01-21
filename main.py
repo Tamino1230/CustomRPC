@@ -4,7 +4,6 @@ import time
 from pypresence import Presence, InvalidID
 import os
 import json
-import atexit
 
 # import files
 import config as c
