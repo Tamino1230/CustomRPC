@@ -9,14 +9,14 @@ set "iconPath=%currentDir%icon\babToma.ico"
 
 :: Prüfen, ob die Zieldatei existiert
 if not exist "%currentDir%%targetFile%" (
-    echo Die Datei "%targetFile%" wurde im aktuellen Verzeichnis nicht gefunden.
+    echo The File "%targetFile%" was not found.
     pause
     exit /b 1
 )
 
 :: Prüfen, ob das Icon existiert
 if not exist "%iconPath%" (
-    echo Die Datei "icon\babToma.ico" wurde im aktuellen Verzeichnis nicht gefunden.
+    echo The file "icon\babToma.ico" was not found.
     pause
     exit /b 1
 )
@@ -38,10 +38,10 @@ cscript //nologo "%temp%\CreateShortcut.vbs"
 del "%temp%\CreateShortcut.vbs"
 
 :: Erfolgsnachricht
-echo Verknüpfung zu "%targetFile%" wurde erfolgreich auf dem Desktop erstellt.
+echo "%targetFile%" created/updated.
 
 :: Pfad der Zieldatei anzeigen
-echo Zieldatei gespeichert unter: %currentDir%%targetFile%
+echo saved under: %currentDir%%targetFile%
 
 :: Versuche, den Python-Pfad zu finden
 set "pythonPath="
@@ -51,12 +51,12 @@ for /f "tokens=*" %%P in ('where python') do (
 )
 
 :notfound
-echo Python wurde nicht gefunden.
+echo Python was not Found! You can download it on the Microsoft Store (python 3.12.6)
 pause
 exit /b 1
 
 :found
-echo Der Python-Pfad ist: %pythonPath%
+echo The Python Path is: %pythonPath%
 
 pip install -r requirements.txt
 
@@ -64,7 +64,7 @@ cd /d "%~dp0"
 :: Datei mit Python öffnen
 set "fileToOpen=main.py"
 if not exist "%fileToOpen%" (
-    echo Die Datei "%fileToOpen%" wurde nicht gefunden.
+    echo The file "%fileToOpen%" was not found.
     pause
     exit /b 1
 )
