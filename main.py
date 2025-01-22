@@ -219,11 +219,13 @@ def set_rpc():
         rpc_args.update({"party_id": "1234", "party_size": party_size})
     rpc.update(**rpc_args)
 
+
 def create_file(filename):
     with open(filename, 'w', encoding='utf-8') as file:
         file.write('{"client_id": "1330216270477525053", "details": "In a conversation with someone", "state": "Working on something cool!", "party_size": [1, 4], "party_enabled": false, "rpc_enabled": true}')
 
     print(f"Savefile: \"{filename}\" was created with default settings!")
+
 
 def newSave():
     clear_console()
@@ -245,6 +247,7 @@ def newSave():
             else:
                 create_file(file_name)
                 break
+
 
 def get_file_data():
     clear_console()
@@ -316,7 +319,8 @@ def value_use():
                     rpc.close()
                 new_client_id = get_client_id()
                 if check_client_id(new_client_id):
-                    rpc = Presence(new_client_id)
+                    client_id = new_client_id  # Ändere die globale client_id
+                    rpc = Presence(client_id)
                     clear_console()
                     print("Connecting new..")
                     try:
@@ -329,6 +333,7 @@ def value_use():
                 else:
                     clear_console()
                     print("Invalid Client ID")
+
                     print("Reconnection old Client ID..")
                     rpc = Presence(client_id)
                     try:
