@@ -4,6 +4,7 @@ import time
 from pypresence import Presence, InvalidID
 import os
 import json
+import pyperclip
 
 # import files
 import config as c
@@ -17,6 +18,7 @@ party_enabled = False
 start_time = time.time()
 rpc_enabled = True
 by = "github.com/Tamino1230"
+discord_server = "https://discord.gg/vpApZSjh3H"
 
 # var Other Settings
 config_file = c.config_file
@@ -48,7 +50,6 @@ def print_files(filetype=".json", verzeichnis=os.getcwd()):
             count += 1
             print(f"Save {count}: {datei}")
     print("")
-
 
 
 #- changes the config file while beeing in the program
@@ -167,12 +168,12 @@ def get_party_size():
 #- Draws the Menu and lets the User pick an option
 def draw_menu():
     global first_time
-    av = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+    av = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
     if first_time != False:
-        print("\nCustom Discord RPC is running! 🎉\nJoin my Discord Server! Also if you got any problems:\nhttps://discord.gg/vpApZSjh3H\n")
+        print(f"\nCustom Discord RPC is running! 🎉\nJoin my Discord Server! Also if you got any problems:\n{discord_server}\nCurrent Save-/Active File: {config_file}")
         first_time = False
     else:
-        print("Custom Discord RPC is running updated! 🎉\n")
+        print(f"\nCustom Discord RPC is running updated! 🎉\nCurrent: {config_file}")
     print("Menu:\n"
           "   1) Change Client ID (when doing that all your settings will reset to the last saved)\n"
           "   2) Change Details\n"
@@ -185,6 +186,7 @@ def draw_menu():
           "   9) Change current Save File\n"
           "  10) New Save File\n"
           "  11) Change Start-Up File (File which automaticly opens)\n"
+          "  12) Copy Filedata to Clipboard\n\n"
           "You can Ignore Errors in the console if it didnt work change the Settings again.\nThe Program is rather slow.\n"
           f"by {sdaafasfasfgg}\n")
     while True:
@@ -197,7 +199,9 @@ def draw_menu():
 #- Sets the RPC directly
 def set_rpc():
     global sdaafasfasfgg
+    global sdaafasfasfg1
     global rpc
+    sdaafasfasfg1 = discord_server
     if not rpc_enabled:
         print("RPC is disabled.")
         return
@@ -225,6 +229,7 @@ def newSave():
     clear_console()
     while True:
         file_name = safe_input(str, "What do you want to name the new safe file? (xxx.json) (write cancel to cancel): ", "useless error")
+        file_name = file_name.lower()
         if " " in file_name:
             print("Spaces are getting deleted to avoid Errors!")
         file_name = file_name.replace(" ", "")
@@ -240,6 +245,42 @@ def newSave():
             else:
                 create_file(file_name)
                 break
+
+def get_file_data():
+    clear_console()
+    print_files(".json")
+    while True:
+        file_name = safe_input(str, "Which File do you want to copy/share? (xxx.json): ", "Useless Error: Lara Gay1")
+        if not ".json" in file_name:
+            print("You can only read out .json Files!")
+            continue
+        elif not os.path.exists(file_name):
+            print(f"File \"{file_name}\" doesnt exist!")
+            continue
+        elif os.path.exists(file_name):
+            print("Reading Data..")
+            time.sleep(1)
+            print(f"Trying to get FileData of {file_name}")
+            try:
+                with open(file_name, 'r') as file:
+                    summary = file.read()
+            except Exception as e:
+                print(f"An Error Accured while Opening File: \"{e}\"")
+                continue
+            try:
+                print("Trying to copy on clipboard")
+                pyperclip.copy(summary)
+                time.sleep(1)
+                print("Sucessfully copyied to Clipboard!")
+                print(f"\nPreview: {summary}")
+                break
+
+            except Exception as e:
+                print(f"An Error Accured while Copying: \"{e}\"")
+
+        else:
+            print("An error Accured?")
+    
 
 def change_startup():
     clear_console()
@@ -261,12 +302,8 @@ def change_startup():
             print(f"File \"{value}\" doesnt exist!")
         else:
             print("An error accured!")
-            continue
-            
+            continue  
 
-
-
-            
 
 #- Uses the data from the Menu
 def value_use():
@@ -310,7 +347,6 @@ def value_use():
                     print(f"\"{e}\"")
                     exit()
                 print("Changed details successfully..\n")
-
             case 3:
                 clear_console()
                 try:
@@ -398,7 +434,10 @@ def value_use():
                 time.sleep(1.5)
             case 11:
                 change_startup()
-                
+                time.sleep(1.5)
+            case 12:
+                get_file_data()
+                time.sleep(1.5)
 
 
 #- User to Start the Program
@@ -413,6 +452,9 @@ if __name__ == "__main__":
         exit()
     if sdaafasfasfgg != "github.com/Tamino1230":
         print("Wrong owner in file!") #- Yes i know you can just delete that
+        exit()
+    if sdaafasfasfg1 != "https://discord.gg/vpApZSjh3H":
+        print("Wrong dcserver in file!") #- Yes i know you can just delete that
         exit()
     clear_console()
     
