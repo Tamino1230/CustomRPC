@@ -1,2 +1,3 @@
 pypresence
 Tk
+pyperclip
