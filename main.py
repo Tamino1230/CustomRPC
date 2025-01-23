@@ -25,6 +25,29 @@ config_file = c.config_file
 rpc = None
 first_time = True
 
+#- Reconnecting
+def reconnect():
+    first_connect = True
+    counti = 0
+    while True:
+        try:
+            rpc = Presence(client_id)
+            rpc.connect()
+            set_rpc()
+            print("Successfully connected!")
+            break
+        except Exception as e:
+            counti += 1
+            if first_connect:
+                print(f"Try connecting: {counti}\nAn Error Accured: \"{e}\"")
+            else:
+                print(f"Tried reconnect: {counti}\nAn Error Accured: \"{e}\"")
+            time.sleep(2)
+            print("Trying to reconnect..")
+            time.sleep(1)
+            clear_console()
+            continue
+
 #- Loads the configuration
 def load_config():
     global client_id, details, state, party_size, party_enabled, rpc_enabled
@@ -219,13 +242,11 @@ def set_rpc():
         rpc_args.update({"party_id": "1234", "party_size": party_size})
     rpc.update(**rpc_args)
 
-
 def create_file(filename):
     with open(filename, 'w', encoding='utf-8') as file:
         file.write('{"client_id": "1330216270477525053", "details": "In a conversation with someone", "state": "Working on something cool!", "party_size": [1, 4], "party_enabled": false, "rpc_enabled": true}')
 
     print(f"Savefile: \"{filename}\" was created with default settings!")
-
 
 def newSave():
     clear_console()
@@ -247,7 +268,6 @@ def newSave():
             else:
                 create_file(file_name)
                 break
-
 
 def get_file_data():
     clear_console()
@@ -274,8 +294,8 @@ def get_file_data():
                 print("Trying to copy on clipboard")
                 pyperclip.copy(summary)
                 time.sleep(1)
-                print("Sucessfully copyied to Clipboard!")
-                print(f"\nPreview: {summary}")
+                print("Sucessfully copied to Clipboard!")
+                print(f"\nPreview:\n{summary}")
                 break
 
             except Exception as e:
@@ -319,8 +339,7 @@ def value_use():
                     rpc.close()
                 new_client_id = get_client_id()
                 if check_client_id(new_client_id):
-                    client_id = new_client_id  # Ändere die globale client_id
-                    rpc = Presence(client_id)
+                    rpc = Presence(new_client_id)
                     clear_console()
                     print("Connecting new..")
                     try:
@@ -328,12 +347,11 @@ def value_use():
                         set_rpc()
                     except Exception as e:
                         print(f"\"{e}\"")
-                        exit()
+                        reconnect()
                     print("Successfully connected..\n")
                 else:
                     clear_console()
                     print("Invalid Client ID")
-
                     print("Reconnection old Client ID..")
                     rpc = Presence(client_id)
                     try:
@@ -341,7 +359,7 @@ def value_use():
                         set_rpc()
                     except Exception as e:
                         print(f"\"{e}\"")
-                        exit()
+                        reconnect()
                     print("Reconnected to old..\n")
             case 2:
                 clear_console()
@@ -350,7 +368,7 @@ def value_use():
                     set_rpc()
                 except Exception as e:
                     print(f"\"{e}\"")
-                    exit()
+                    reconnect()
                 print("Changed details successfully..\n")
             case 3:
                 clear_console()
@@ -359,7 +377,7 @@ def value_use():
                     set_rpc()
                 except Exception as e:
                     print(f"\"{e}\"")
-                    exit()
+                    reconnect()
                 print("Changed state successfully..\n")
             case 4:
                 clear_console()
@@ -368,7 +386,7 @@ def value_use():
                     set_rpc()
                 except Exception as e:
                     print(f"\"{e}\"")
-                    exit()
+                    reconnect()
                 print("Changed party size successfully..\n")
             case 5:
                 party_enabled = not party_enabled
@@ -376,7 +394,7 @@ def value_use():
                     set_rpc()
                 except Exception as e:
                     print(f"\"{e}\"")
-                    exit()
+                    reconnect()
                 clear_console()
                 print(f"Party visibility {'enabled' if party_enabled else 'disabled'}.")
                 time.sleep(1.5)
@@ -397,12 +415,12 @@ def value_use():
                     set_rpc()
                 except Exception as e:
                     print(f"\"{e}\"")
-                    exit()
+                    reconnect()
                 time.sleep(1.5)
             case 7:
                 clear_console()
                 save_config()
-                print("Settings saved.")
+                print(f"Settings saved of File: \"{config_file}\".")
                 time.sleep(1.5)
             case 8:
                 rpc_enabled = not rpc_enabled
@@ -413,7 +431,7 @@ def value_use():
                         set_rpc()
                     except Exception as e:
                         print(f"\"{e}\"")
-                        exit()
+                        reconnect()
                     print("RPC enabled.")
                     time.sleep(1.5)
                 else:
@@ -447,14 +465,23 @@ def value_use():
 
 #- User to Start the Program
 if __name__ == "__main__":
+    counti = 0
     load_config()
-    try:
-        rpc = Presence(client_id)
-        rpc.connect()
-        set_rpc()
-    except Exception as e:
-        print(f"\"{e}\"")
-        exit()
+    while True:
+        try:
+            rpc = Presence(client_id)
+            rpc.connect()
+            set_rpc()
+            print("Successfully connected!")
+            break
+        except Exception as e:
+            counti += 1
+            print(f"Tried reconnect: {counti}\nAn Error Accured: \"{e}\"")
+            time.sleep(2)
+            print("Trying to reconnect..")
+            time.sleep(1)
+            clear_console()
+            continue
     if sdaafasfasfgg != "github.com/Tamino1230":
         print("Wrong owner in file!") #- Yes i know you can just delete that
         exit()
@@ -462,7 +489,6 @@ if __name__ == "__main__":
         print("Wrong dcserver in file!") #- Yes i know you can just delete that
         exit()
     clear_console()
-    
-    while True:
-        value_use()
-        time.sleep(1)
+     
+    value_use()
+    print("Femboys are not gay")
