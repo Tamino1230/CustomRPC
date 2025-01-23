@@ -194,6 +194,9 @@ def draw_menu():
     av = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
     if first_time != False:
         print(f"\nCustom Discord RPC is running! 🎉\nJoin my Discord Server! Also if you got any problems:\n{discord_server}\nCurrent Save-/Active File: {config_file}")
+        with open(config_file, 'r') as file:
+                    summary = file.read()
+        print(f"\nPreview:\n\"{summary}\"\n")
         first_time = False
     else:
         print(f"\nCustom Discord RPC is running updated! 🎉\nCurrent: {config_file}")
