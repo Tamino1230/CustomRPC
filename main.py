@@ -199,6 +199,9 @@ def draw_menu():
         print(f"\nPreview:\n\"{summary}\"\n")
         first_time = False
     else:
+        with open(config_file, 'r') as file:
+                    summary = file.read()
+        print(f"\nPreview:\n\"{summary}\"\n")
         print(f"\nCustom Discord RPC is running updated! 🎉\nCurrent: {config_file}")
     print("Menu:\n"
           "   1) Change Client ID (when doing that all your settings will reset to the last saved)\n"
