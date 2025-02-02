@@ -196,12 +196,12 @@ def draw_menu():
         print(f"\nCustom Discord RPC is running! 🎉\nJoin my Discord Server! Also if you got any problems:\n{discord_server}\nCurrent Save-/Active File: {config_file}")
         with open(config_file, 'r') as file:
                     summary = file.read()
-        print(f"\nPreview:\n\"{summary}\"\n")
+        print(f"\nPreview Save File:\n\"{summary}\" (Save to Update)\n")
         first_time = False
     else:
         with open(config_file, 'r') as file:
                     summary = file.read()
-        print(f"\nPreview:\n\"{summary}\"\n")
+        print(f"\nPreview Save File:\n\"{summary}\" (Save to Update)\n")
         print(f"\nCustom Discord RPC is running updated! 🎉\nCurrent: {config_file}")
     print("Menu:\n"
           "   1) Change Client ID (when doing that all your settings will reset to the last saved)\n"
