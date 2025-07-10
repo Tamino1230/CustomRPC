@@ -113,6 +113,7 @@ def change_config():
 
 #- Saves the configuration
 def save_config():
+    global client_id, details, state, party_size, party_enabled, rpc_enabled
     config = {
         "client_id": client_id,
         "details": details,
@@ -238,7 +239,7 @@ def draw_menu():
 def set_rpc():
     global sdaafasfasfgg
     global sdaafasfasfg1
-    global rpc
+    global rpc, details, state
     sdaafasfasfg1 = discord_server
     if not rpc_enabled:
         print("RPC is disabled.")
