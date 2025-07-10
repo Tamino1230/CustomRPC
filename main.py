@@ -27,6 +27,7 @@ first_time = True
 
 #- Reconnecting
 def reconnect():
+    global rpc, client_id, details, state, party_size, party_enabled, rpc_enabled
     first_connect = True
     counti = 0
     while True:
