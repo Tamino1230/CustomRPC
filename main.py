@@ -194,8 +194,16 @@ def draw_menu():
     av = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
     if first_time != False:
         print(f"\nCustom Discord RPC is running! 🎉\nJoin my Discord Server! Also if you got any problems:\n{discord_server}\nCurrent Save-/Active File: {config_file}")
-        with open(config_file, 'r') as file:
-                    summary = file.read()
+        try:
+            with open(config_file, 'r') as file:
+                summary = file.read()
+        except FileNotFoundError:
+            print(f"File \"{config_file}\" doesnt exist! Creating new file with default settings..")
+            create_file(config_file)
+            with open(config_file, 'r') as file:
+                summary = file.read()
+        except Exception:
+            pass
         print(f"\nPreview Save File:\n\"{summary}\" (Save to Update)\n")
         first_time = False
     else:
